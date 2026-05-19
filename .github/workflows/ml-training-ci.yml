@@ -6,9 +6,63 @@ on:
       - feat/ml-training
     paths:
       - 'src/**'
+      - 'tests/**'
+      - 'pyproject.toml'
+      - 'poetry.lock'
+      - '.github/workflows/ml-training-ci.yml'
 
   pull_request:
     branches:
       - main
     paths:
       - 'src/**'
+      - 'tests/**'
+      - 'pyproject.toml'
+      - 'poetry.lock'
+      - '.github/workflows/ml-training-ci.yml'
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v5
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install Poetry
+        run: |
+          curl -sSL https://install.python-poetry.org | python3 -
+          echo "$HOME/.local/bin" >> $GITHUB_PATH
+
+      - name: Configure Poetry
+        run: |
+          poetry config virtualenvs.create true
+          poetry config virtualenvs.in-project true
+
+      - name: Cache Poetry virtualenv
+        uses: actions/cache@v4
+        with:
+          path: .venv
+          key: poetry-${{ runner.os }}-${{ hashFiles('poetry.lock') }}
+
+      - name: Install dependencies
+        run: poetry install --no-interaction --no-ansi
+
+      - name: Run linting (ruff)
+        run: |
+          poetry run pip install ruff
+          poetry run ruff check src tests
+
+      - name: Run tests (pytest)
+        run: poetry run pytest -q
+
+      - name: Smoke training test
+        run: poetry run python -m src.train --sample-run
+
+      - name: Build Docker image (validation only)
+        run: docker build -t ml-training:ci .
