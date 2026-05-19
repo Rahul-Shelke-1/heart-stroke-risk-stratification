@@ -80,7 +80,7 @@ The end-to-end system is composed of the following logical components:
 - Inference Service Layer
 - Monitoring, Drift & Observability
 
-![architecture](flowcharts/end-to-end-ml-architecture-heart-stroke-prediction.drawio.svg)
+![architecture](assets/flowcharts/end-to-end-ml-architecture-heart-stroke-prediction.drawio.svg)
 
 The infrastructure layer is implemented in a dedicated Terraform-based MLOps platform repository:
 👉 <LINK_TO_YOUR_TERRAFORM_REPO>
