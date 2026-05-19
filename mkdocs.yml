@@ -1,11 +1,11 @@
-site_name: Stroke Risk Stratification System - Docs
-site_url: https://github.com/Rahul-404/heart-stroke-prediction/
+site_name: Heart Stroke Risk Stratification Platform Docs
+site_url: https://github.com/Rahul-404/heart-stroke-risk-stratification/
 site_description: >
   Analyze patient demographics, clinical data, and lifestyle habits to calculate stroke probability
   and classify individuals into specific clinical risk levels for better preventative care.
 
-repo_url: https://github.com/Rahul-404/heart-stroke-prediction
-repo_name: heart-stroke-prediction
+repo_url: https://github.com/Rahul-404/heart-stroke-risk-stratification
+repo_name: heart-stroke-risk-stratification
 
 theme:
   name: "material"
@@ -60,11 +60,11 @@ nav:
   - Getting Started:
       - Local Setup: 00_getting_started/local_setup.md
 
-  - Problem:
+  - Problem Framing:
       - Overview: 01_problem/problem_statement.md
       - Success Criteria: 01_problem/success_criteria.md
 
-  - Data:
+  - Data Foundation:
       - Data Overview: 02_data/data_overview.md
       - Data Schema: 02_data/schema.md
       - Data Quality & Bias: 02_data/data_quality.md

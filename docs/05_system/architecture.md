@@ -1,5 +1,38 @@
 # System Architecture
 
+## Integrated Deployment Architecture
+
+The following diagram represents the end-to-end production architecture, combining:
+
+- The ML system (this repository)
+- The Terraform-based MLOps platform responsible for infrastructure provisioning
+
+This reflects the actual deployed workflow used to run training, evaluation, and inference pipelines in a production-like environment.
+
+![architecture](../assets/flowcharts/end-to-end-ml-architecture-heart-stroke-prediction.drawio.svg)
+
+## System Boundary Overview
+
+### ML System Layer (This Repository)
+- Feature engineering
+- Model training
+- Experiment tracking
+- Inference API
+- Model packaging
+
+### MLOps Platform Layer (Terraform Repository)
+- S3 storage provisioning
+- ECR image registry
+- IAM roles and policies
+- Compute infrastructure
+- Environment orchestration
+
+### Integration Flow
+- ML system consumes platform-provisioned resources
+- Training jobs execute on platform-managed compute
+- Artifacts stored in S3
+- Docker images pushed to ECR for deployment
+
 ## Architectural Objective
 
 The **Stroke Risk Stratification System** is designed as a **production-oriented, end-to-end ML system** that emphasizes reliability, traceability, and controlled risk exposure rather than raw model complexity.

@@ -1,189 +1,130 @@
 # Stroke Risk Stratification System
 
-> **Production-grade, end-to-end ML system for clinical stroke risk stratification**
+> Production-grade end-to-end ML system for clinical stroke risk stratification
 
 ---
 
 ## Overview
 
-The **Stroke Risk Stratification System** is a full-stack, production-oriented machine learning project that predicts an individual’s risk of stroke based on demographic, clinical, and lifestyle features. The system is designed to reflect **real-world data science and MLOps practices**, not just offline model training.
+The Stroke Risk Stratification System is a production-oriented machine learning platform designed to predict stroke risk using demographic, clinical, and lifestyle data.
 
-This repository demonstrates how a stroke prediction use case can be taken from **problem framing and experimentation** to **reproducible training, model governance, deployment-ready artifacts, and monitoring**.
+The project demonstrates how machine learning systems move from experimentation to reproducible training, deployment, monitoring, and governance using modern MLOps practices.
 
-The project emphasizes:
-
-* Strong **problem framing and success criteria**
-* Reproducible **feature engineering and modeling pipelines**
-* Experiment tracking and lineage using **MLflow**
-* CI/CD-driven infrastructure and deployment workflows
-* Cloud-native design aligned with **AWS MLOps patterns**
+The system follows a **decoupled architecture**, where ML workflows are separated from infrastructure provisioning.
 
 ---
 
-## Problem Statement
+## Key Capabilities
 
-Stroke is one of the leading causes of death and long-term disability worldwide. Early identification of high-risk individuals enables preventive interventions and better allocation of healthcare resources.
-
-**Objective**:
-Build a machine learning system that stratifies individuals into risk categories (e.g., low / medium / high) based on available patient data, enabling clinicians and healthcare systems to:
-
-* Identify high-risk patients early
-* Prioritize preventive care
-* Support data-driven clinical decision-making
-
-This project treats stroke prediction as a **risk stratification problem**, not just a binary classification task.
-
----
-
-## Business & Clinical Context
-
-From a real-world perspective:
-
-* False negatives (missing a high-risk patient) are **costlier** than false positives
-* Model outputs must be **interpretable and auditable**
-* Data leakage, reproducibility, and monitoring are critical
-
-Therefore, this system is designed with:
-
-* Explicit metric trade-offs
-* Versioned data, code, and models
-* Clear separation between experimentation and production
+- End-to-end ML pipelines
+- Feature engineering and preprocessing workflows
+- Experiment tracking with MLflow
+- Model registry and lineage tracking
+- CI/CD-driven workflows
+- AWS-aligned deployment architecture
+- Monitoring for drift and performance degradation
 
 ---
 
 ## Success Criteria
 
-The project defines success across **three dimensions**:
+### Clinical Objectives
+- Maximize recall for high-risk patients
+- Support risk-based patient stratification
+- Reduce missed high-risk cases
 
-### 1. Model Performance
+### Engineering Objectives
+- Reproducible pipelines
+- Deterministic preprocessing
+- Tested modular architecture
 
-* Primary metric: **Recall / Sensitivity for high-risk patients**
-* Secondary metrics: ROC-AUC, Precision, F1-score
-* Performance validated via cross-validation and holdout datasets
-
-### 2. Engineering Quality
-
-* Deterministic, reusable preprocessing and feature engineering pipelines
-* Unit and integration tests for transformations and models
-* CI pipeline capable of building and testing artifacts
-
-### 3. Production Readiness
-
-* End-to-end experiment tracking (parameters, metrics, artifacts)
-* Model registry with versioning and stage transitions
-* Deployment-ready inference artifacts
-* Monitoring hooks for drift and performance degradation
+### Production Objectives
+- Model versioning
+- Deployment-ready artifacts
+- Monitoring and governance
 
 ---
 
-## System Architecture (High Level)
+## Infrastructure Layer (External MLOps Platform)
 
-At a high level, the system consists of:
+This project runs on a Terraform-based MLOps platform that provisions scalable cloud infrastructure for ML workloads.
 
-* **Data Sources**
+### Platform responsibilities:
+- S3 buckets for datasets and artifacts
+- ECR repositories for container images
+- IAM roles and access control
+- Compute infrastructure for training and inference
+- Environment separation (dev/staging/prod patterns)
 
-    * Structured patient data (demographics, clinical attributes)
+### ML system responsibilities (this repository):
+- Training and evaluation pipelines
+- Feature engineering workflows
+- Model packaging and versioning
+- Inference API implementation
+- Integration with platform-provisioned resources
 
-* **Experimentation Layer**
-
-    * Jupyter notebooks for EDA and hypothesis testing
-    * MLflow for experiment tracking
-
-* **Training & Pipelines**
-
-    * Modular feature engineering and preprocessing pipelines
-    * Model training, evaluation, and selection
-
-* **Model Registry**
-
-    * Versioned models with metadata and lineage
-
-* **Inference Stack**
-
-    * Containerized model serving
-    * API-based inference (AWS API Gateway + Lambda + SageMaker Endpoint)
-
-* **Monitoring & Governance**
-
-    * Model performance tracking
-    * Data drift and prediction drift detection
+This separation enables independent evolution of ML workflows and infrastructure layers.
 
 ---
 
-## What This Project Demonstrates
+## End-to-End System Architecture
 
-This is **not** a Kaggle-style notebook-only project.
+This architecture represents the deployed production workflow integrating both the ML application layer and the underlying MLOps platform.
 
-It demonstrates:
+The end-to-end system is composed of the following logical components:
 
-* How real-world ML problems are framed
-* How experimentation transitions into production pipelines
-* How MLOps tools are integrated coherently
-* How decisions are documented and justified
+- Data Ingestion & Sources
+- Experimentation & MLflow Tracking
+- Training & Feature Pipelines
+- Model Registry & Versioning
+- Inference Service Layer
+- Monitoring, Drift & Observability
 
-If you are a **recruiter, ML engineer, or data scientist**, this repository is intended to show that the system is:
+![architecture](assets/flowcharts/end-to-end-ml-architecture-heart-stroke-prediction.drawio.svg)
 
-* Thoughtfully designed
-* Technically sound
-* Production-aware
+The infrastructure layer is implemented in a dedicated Terraform-based MLOps platform repository:
+👉 <LINK_TO_YOUR_TERRAFORM_REPO>
 
----
+### System-of-Systems Design
 
-## Documentation Structure
+This system is designed as part of a larger ML platform ecosystem:
 
-The documentation is organized as follows:
+- This repository defines the ML application layer (training, evaluation, inference)
+- The Terraform-based platform provides infrastructure provisioning, scaling, and environment management
 
-* **Project Overview** – Problem framing, goals, and success criteria
-* **Data Understanding** – Dataset description and limitations
-* **Feature Engineering** – Transformations, encoders, and imputations
-* **Modeling** – Algorithms, evaluation strategy, and selection
-* **Experiment Tracking** – MLflow usage and experiment design
-* **MLOps & CI/CD** – Testing, pipelines, and infrastructure
-* **Deployment** – Inference architecture and serving strategy
-* **Monitoring** – Drift, performance, and governance
-
-Each section focuses on *why* decisions were made, not just *how*.
+Together, they form a production-grade, multi-layer ML system architecture.
 
 ---
 
-## Intended Audience
+## Documentation Guide
 
-This project is designed for:
+The documentation is organized into the following major sections:
 
-* Data Scientists transitioning to production ML
-* ML Engineers and MLOps practitioners
-* Recruiters and hiring managers evaluating real-world ML skills
-
-A basic familiarity with machine learning and cloud concepts is assumed.
-
----
-
-## Getting Started
-
-If you are new to this project, start with:
-
-1. **Problem Framing & Data Understanding**
-2. **Feature Engineering Pipeline**
-3. **Experiment Tracking with MLflow**
-4. **Training and Model Selection**
-5. **Deployment & Monitoring**
-
-Each section builds on the previous one.
+| Section | Description |
+|---|---|
+| Getting Started | Local setup, environment configuration, and project initialization |
+| Problem Framing | Business framing, objectives, and success criteria |
+| Data Foundation | Dataset structure, schema, validation, quality checks, and bias considerations |
+| Feature Engineering | Missing data handling, encoding strategies, normalization, and preprocessing pipelines |
+| Modeling | Experiment tracking, evaluation strategy, and model governance |
+| System Design | End-to-end architecture, inference workflows, and API specifications |
+| Reliability & Quality | Testing strategy, monitoring, and drift detection |
+| Governance | Ethical considerations, risks, and future roadmap |
 
 ---
 
-## Disclaimer
+## Tech Stack
 
-This project is for **educational and demonstrational purposes only**.
-It is **not a medical device** and should not be used for real clinical decision-making.
-
----
-
-## Author
-
-**Rahul Shelke**
-End-to-End Data Science & MLOps Practitioner
+- Python
+- Scikit-learn
+- MLflow
+- AWS
+- Docker
+- FastAPI
+- GitHub Actions
 
 ---
 
-> *The goal of this project is not just to predict stroke risk, but to demonstrate how reliable, auditable, and production-ready machine learning systems are built in the real world.*
+???+ warning "Disclaimer"
+    This project is intended for educational and demonstrational purposes only.
+    It is not a medical device and should not be used for real clinical decision-making.
