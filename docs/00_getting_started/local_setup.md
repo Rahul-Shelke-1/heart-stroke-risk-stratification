@@ -46,4 +46,8 @@ uvicorn app.main:app --reload
 mlflow ui
 ```
 
+## Infrastructure Requirement
+
+This project assumes AWS infrastructure is already provisioned via a separate Terraform repository (S3, ECR, IAM, etc.).
+
 ---
