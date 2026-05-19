@@ -9,7 +9,7 @@ The following diagram represents the end-to-end production architecture, combini
 
 This reflects the actual deployed workflow used to run training, evaluation, and inference pipelines in a production-like environment.
 
-![architecture](flowcharts/end-to-end-ml-architectures-heart-stroke-prediction.drawio.svg)
+![architecture](../flowcharts/end-to-end-ml-architectures-heart-stroke-prediction.drawio.svg)
 
 ## System Boundary Overview
 
