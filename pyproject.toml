@@ -1,81 +1,48 @@
-[tool.poetry]
+[project]
 name = "heart-stroke-prediction"
-version = "0.0.1"
+version = "0.1.0"
 description = "The goal of this project is to provide a data-driven approach for early detection of stroke risks, which can potentially assist healthcare professionals in prioritizing patient care and preventive measures."
-authors = ["Rahul Shelke <rahulshelke981@gmail.com>"]
-license = "MIT"
 readme = "README.md"
-packages = [
-    { include = "src" }
+requires-python = ">=3.11"
+dependencies = []
+
+[dependency-groups]
+dev = [
+    "catboost>=1.2.10",
+    "ipykernel>=7.2.0",
+    "lightgbm>=4.6.0",
+    "numpy>=2.4.6",
+    "pandas>=3.0.3",
+    "pre-commit>=4.6.0",
+    "scikit-learn>=1.8.0",
+    "xgboost>=3.2.0",
+]
+prod = [
+    "dill>=0.4.1",
+    "python-dotenv>=1.2.2",
+]
+test = [
+    "pytest>=9.0.3",
+    "pytest-docker>=3.2.5",
 ]
 
-[tool.poetry.dependencies]
-python = ">=3.11,<4.0"
-mkdocs-material = {extras = ["imaging"], version = "^9.6.20"}
-mkdocstrings = "^0.30.1"
-mkdocstrings-python = "^1.18.2"
-cairosvg = "^2.8.2"
-pymongo = {extras = ["srv"], version = "^4.15.5"}
-ipykernel = "^7.1.0"
-pandas = "^2.3.3"
-tqdm = "^4.67.1"
-from-root = "^1.3.0"
-certifi = "^2025.11.12"
-evidently = "^0.7.18"
-imbalanced-learn = "^0.14.1"
-neuro-mf = "^0.0.5"
-boto3 = "^1.42.19"
-fastapi = "^0.128.0"
-httpx = "^0.28.1"
-uvicorn = "^0.40.0"
-jinja2 = "^3.1.6"
-itsdangerous = "^2.2.0"
-httptools = "^0.7.1"
-orjson = "^3.11.5"
-ujson = "^5.11.0"
-watchfiles = "^1.1.1"
-websockets = "^15.0.1"
-shap = "^0.50.0"
-python-dotenv = "^1.2.1"
-pyyaml = "^6.0.3"
-dill = "^0.4.0"
-botocore = "^1.42.19"
-mypy-boto3-s3 = "^1.42.16"
-python-multipart = "^0.0.21"
-xgboost = "^3.1.2"
-lightgbm = "^4.6.0"
-catboost = "^1.2.8"
-optuna = "^4.6.0"
-mlflow = "^3.8.1"
-pre-commit = "^4.5.1"
-nbformat = "^5.10.4"
-pyampute = "^0.0.3"
-missingno = "^0.5.2"
-seaborn = "0.12.2"
-umap-learn = "^0.5.11"
-cloudpickle = "^3.1.2"
-mkdocs = "^1.6.1"
-prettytable = "^3.17.0"
-category-encoders = "^2.9.0"
-
-[tool.poetry.group.dev.dependencies]
-pytest = "^8.4.2"
-pytest-mock = "^3.15.1"
-python-dotenv = "^1.1.1"
-pytest-docker = "^3.2.3"
-pytest-cov = "^7.0.0"
-flake8 = "^7.3.0"
-mypy = "^1.18.2"
-pylint = "^4.0.3"
-ipykernel = "^7.1.0"
-jupyter = "^1.1.1"
-pygwalker = "^0.5.0.1"
-
 [build-system]
-requires = ["poetry-core>=2.0.0,<3.0.0"]
-build-backend = "poetry.core.masonry.api"
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
 
 [tool.pytest.ini_options]
-pythonpath = ["src"]
-testpaths = ["tests"]
-addopts = "-v"
+minversion = "6.0"
+addopts = "-ra -q"
+testpaths = [
+  "tests"
+]
+python_files = [
+  "test_*.py",
+  "*_test.py"
+]
