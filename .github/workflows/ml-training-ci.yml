@@ -36,14 +36,14 @@ jobs:
 
       - name: Install uv
         run: |
-          curl -sSL https://astral.sh/uv/install.sh | python3 -
+          curl -sSL https://astral.sh/uv/install.sh | bash
           echo "$HOME/.local/bin" >> $GITHUB_PATH
 
       - name: Verify uv
         run: uv --version
 
       - name: Sync dependencies (create venv + install)
-        run: uv sync
+        run: uv sync --group dev --frozen
 
       - name: Run linting (ruff)
         run: uv run ruff check src tests
