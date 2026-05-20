@@ -49,6 +49,8 @@ jobs:
         run: uv run ruff check src tests
 
       - name: Run tests (pytest)
+        env:
+          PYTHONPATH: .
         run: uv run pytest -q
 
       - name: Smoke training test
