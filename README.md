@@ -4,7 +4,7 @@
 
 > 🚀 End-to-end ML system from data ingestion to deployment and monitoring.
 
-![CI](https://github.com/Rahul-404/heart-stroke-prediction/actions/workflows/ci.yml/badge.svg)
+![CI](https://github.com/Rahul-404/heart-stroke-prediction/actions/workflows/ml-training-ci.yml/badge.svg)
 ![Docs](https://github.com/Rahul-404/heart-stroke-prediction/actions/workflows/publish-docs.yml/badge.svg)
 [![Documentation](https://img.shields.io/badge/docs-live-brightgreen)](https://rahul-404.github.io/heart-stroke-prediction/)
 
