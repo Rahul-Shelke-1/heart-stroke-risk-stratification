@@ -43,7 +43,7 @@ jobs:
         run: uv --version
 
       - name: Sync dependencies (create venv + install)
-        run: uv sync --group dev --frozen
+        run: uv sync --all-groups
 
       - name: Run linting (ruff)
         run: uv run ruff check src tests
