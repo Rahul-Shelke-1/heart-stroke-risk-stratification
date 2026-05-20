@@ -34,35 +34,25 @@ jobs:
         with:
           python-version: "3.11"
 
-      - name: Install Poetry
+      - name: Install uv
         run: |
-          curl -sSL https://install.python-poetry.org | python3 -
+          curl -sSL https://astral.sh/uv/install.sh | python3 -
           echo "$HOME/.local/bin" >> $GITHUB_PATH
 
-      - name: Configure Poetry
-        run: |
-          poetry config virtualenvs.create true
-          poetry config virtualenvs.in-project true
+      - name: Verify uv
+        run: uv --version
 
-      - name: Cache Poetry virtualenv
-        uses: actions/cache@v4
-        with:
-          path: .venv
-          key: poetry-${{ runner.os }}-${{ hashFiles('poetry.lock') }}
-
-      - name: Install dependencies
-        run: poetry install --no-interaction --no-ansi
+      - name: Sync dependencies (create venv + install)
+        run: uv sync
 
       - name: Run linting (ruff)
-        run: |
-          poetry run pip install ruff
-          poetry run ruff check src tests
+        run: uv run ruff check src tests
 
       - name: Run tests (pytest)
-        run: poetry run pytest -q
+        run: uv run pytest -q
 
       - name: Smoke training test
-        run: echo "poetry run python -m src.train --sample-run"
+        run: echo "uv run python -m src.train --sample-run"
 
       - name: Build Docker image (validation only)
         run: echo "docker build -t ml-training:ci ."
