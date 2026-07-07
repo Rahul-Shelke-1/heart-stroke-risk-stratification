@@ -1,0 +1,78 @@
+name: Dynamic Kaggle Fire-and-Forget Pipeline
+
+on:
+  branch:
+    - feat/notebooks
+  push:
+    paths:
+      - 'notebooks/*.ipynb' # Triggers only when a notebook file changes
+
+jobs:
+  deploy-and-run:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2 # Required to run git diff against the previous commit
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-node-version: '3.11'
+
+      - name: Install Kaggle CLI
+        run: pip install kaggle
+
+      - name: Configure Kaggle Authentication
+        run: |
+          mkdir -p ~/.kaggle
+          echo '{"username":"${{ secrets.KAGGLE_USERNAME }}","key":"${{ secrets.KAGGLE_KEY }}"}' > ~/.kaggle/kaggle.json
+          chmod 600 ~/.kaggle/kaggle.json
+
+      - name: Detect Changed Notebook & Push to Kaggle
+        env:
+          KAGGLE_USERNAME: ${{ secrets.KAGGLE_USERNAME }}
+        run: |
+          # 1. Identify which notebook file was modified/added
+          CHANGED_FILE=$(git diff --name-only HEAD^ HEAD | grep '\.ipynb$' | head -n 1)
+
+          if [ -z "$CHANGED_FILE" ]; then
+            echo "No notebook changes detected."
+            exit 0
+          fi
+
+          echo "Detected changed notebook: $CHANGED_FILE"
+
+          # 2. Extract file base name without extension (e.g., 03_Feature_Engineering)
+          FILENAME=$(basename "$CHANGED_FILE" .ipynb)
+
+          # 3. Kaggle Slugs strictly forbid underscores (_) and dots (.)
+          # Convert to lowercase and replace underscores/dots with hyphens (-)
+          KAGGLE_SLUG=$(echo "$FILENAME" | tr '[:upper:]' '[:lower:]' | tr '_' '-' | tr '.' '-')
+          TITLE=$(echo "$FILENAME" | tr '_' ' ' | tr '.' ' ')
+
+          echo "Generated Kaggle Slug: $KAGGLE_SLUG"
+          echo "Generated Notebook Title: $TITLE"
+
+          # 4. Dynamically generate the kernel-metadata.json file on-the-fly
+          cat <<EOF > kernel-metadata.json
+          {
+            "id": "$KAGGLE_USERNAME/$KAGGLE_SLUG",
+            "title": "$TITLE",
+            "code_file": "$CHANGED_FILE",
+            "language": "python",
+            "kernel_type": "notebook",
+            "is_private": "true",
+            "enable_gpu": "false",
+            "enable_tpu": "false",
+            "enable_internet": "true",
+            "dataset_sources": [],
+            "kernel_sources": [],
+            "competition_sources": []
+          }
+          EOF
+
+          # 5. Push to Kaggle (Fire-and-Forget)
+          echo "Pushing notebook to Kaggle to trigger remote run..."
+          kaggle kernels push
