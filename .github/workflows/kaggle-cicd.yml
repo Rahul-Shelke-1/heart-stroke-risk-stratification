@@ -34,41 +34,58 @@ jobs:
           echo '{"username":"${{ secrets.KAGGLE_USERNAME }}","key":"${{ secrets.KAGGLE_KEY }}"}' > ~/.kaggle/kaggle.json
           chmod 600 ~/.kaggle/kaggle.json
 
-      - name: Detect Changed Notebook & Push to Kaggle
-        env:
-          KAGGLE_USERNAME: ${{ secrets.KAGGLE_USERNAME }}
+      - name: Advanced Intent & Diff Detection
+        id: check_intent
         run: |
           # 1. Identify which notebook file was modified/added
           CHANGED_FILE=$(git diff --name-only HEAD^ HEAD | grep '\.ipynb$' | head -n 1)
 
           if [ -z "$CHANGED_FILE" ]; then
-            echo "No notebook changes detected."
+            echo "STATUS=skip" >> $GITHUB_ENV
+            echo "No notebook changes found in this commit."
             exit 0
           fi
 
-          echo "Detected changed notebook: $CHANGED_FILE"
+          echo "Found modified notebook target: $CHANGED_FILE"
 
-          # 2. Extract file base name without extension
-          FILENAME=$(basename "$CHANGED_FILE" .ipynb)
+          # 2. Extract and evaluate your user-defined TRIGGER_FLAG status
+          if grep -q "# TRIGGER_FLAG: run" "$CHANGED_FILE"; then
+            echo "Intent Confirmed: Flag is set to RUN."
+            echo "STATUS=execute" >> $GITHUB_ENV
+            echo "CHANGED_FILE=$CHANGED_FILE" >> $GITHUB_ENV
+          elif grep -q "# TRIGGER_FLAG: pause" "$CHANGED_FILE"; then
+            echo "Intent Blocked: Flag is set to PAUSE. Skipping remote cloud deployment."
+            echo "STATUS=skip" >> $GITHUB_ENV
+          else
+            echo "Warning: No clean TRIGGER_FLAG found. Defaulting to skip to protect compute limits."
+            echo "STATUS=skip" >> $GITHUB_ENV
+          fi
 
-          # 3. Kaggle Slugs strictly forbid underscores (_) and dots (.)
-          KAGGLE_SLUG=$(echo "$FILENAME" | tr '[:upper:]' '[:lower:]' | tr '_' '-' | tr '.' '-')
-          TITLE=$(echo "$FILENAME" | tr '_' ' ' | tr '.' ' ')
+      - name: Package and Push Kernel to Kaggle Cloud
+        # This guard keeps the step dormant if your check above evaluated to 'skip'
+        if: env.STATUS == 'execute'
+        env:
+          KAGGLE_USERNAME: ${{ secrets.KAGGLE_USERNAME }}
+          KAGGLE_KEY: ${{ secrets.KAGGLE_KEY }}
+        run: |
+          echo "Processing deployment configurations..."
 
-          echo "Generated Kaggle Slug: $KAGGLE_SLUG"
-          echo "Generated Notebook Title: $TITLE"
+          # 1. Strip the folder prefix path to get a clean file title name
+          FILENAME=$(basename "${{ env.CHANGED_FILE }}" .ipynb)
+          # Convert naming format into a valid lowercase URL slug asset identifier
+          SLUG=$(echo "$FILENAME" | tr '[:upper:]' '[:lower:]' | tr ' _' '-')
 
-          # 4. Dynamically generate the kernel-metadata.json file on-the-fly
+          # 2. Programmatically generate the required kernel-metadata.json file
           cat <<EOF > kernel-metadata.json
           {
-            "id": "$KAGGLE_USERNAME/$KAGGLE_SLUG",
-            "title": "$TITLE",
-            "code_file": "$CHANGED_FILE",
+            "id": "${{ secrets.KAGGLE_USERNAME }}/$SLUG",
+            "title": "$FILENAME",
+            "code_file": "${{ env.CHANGED_FILE }}",
             "language": "python",
             "kernel_type": "notebook",
-            "is_private": "true",
-            "enable_gpu": "false",
-            "enable_tpu": "false",
+            "is_private": true,
+            "enable_gpu": false,
+            "enable_tpu": false,
             "enable_internet": true,
             "dataset_sources": [],
             "kernel_sources": [],
@@ -76,6 +93,7 @@ jobs:
           }
           EOF
 
-          # 5. Push to Kaggle (Fire-and-Forget)
-          echo "Pushing notebook to Kaggle to trigger remote run..."
-          kaggle kernels push
+          echo "Metadata compiled successfully. Initiating cloud sync..."
+
+          # 3. THE KAGGLE PUSH COMMAND (Triggers remote isolated build)
+          kaggle kernels push -p .
