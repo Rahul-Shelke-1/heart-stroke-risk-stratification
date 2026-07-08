@@ -1,9 +1,9 @@
 name: Dynamic Kaggle Fire-and-Forget Pipeline
 
 on:
-  branch:
-    - feat/notebooks
   push:
+    branches:
+      - feat/notebooks
     paths:
       - 'notebooks/*.ipynb' # Triggers only when a notebook file changes
 
@@ -16,13 +16,16 @@ jobs:
         with:
           fetch-depth: 2 # Required to run git diff against the previous commit
 
-      - name: Set up Python
-        uses: actions/setup-python@v4
+      # Step 1: Set up uv with automatic caching enabled
+      - name: Set up uv
+        uses: astral-sh/setup-uv@v5
         with:
-          python-node-version: '3.11'
+          enable-cache: true
+          python-version: '3.12.12'
 
+      # Step 2: Use uv to install Kaggle CLI instantly
       - name: Install Kaggle CLI
-        run: pip install kaggle
+        run: uv pip install --system kaggle
 
       - name: Configure Kaggle Authentication
         run: |
@@ -44,11 +47,10 @@ jobs:
 
           echo "Detected changed notebook: $CHANGED_FILE"
 
-          # 2. Extract file base name without extension (e.g., 03_Feature_Engineering)
+          # 2. Extract file base name without extension
           FILENAME=$(basename "$CHANGED_FILE" .ipynb)
 
           # 3. Kaggle Slugs strictly forbid underscores (_) and dots (.)
-          # Convert to lowercase and replace underscores/dots with hyphens (-)
           KAGGLE_SLUG=$(echo "$FILENAME" | tr '[:upper:]' '[:lower:]' | tr '_' '-' | tr '.' '-')
           TITLE=$(echo "$FILENAME" | tr '_' ' ' | tr '.' ' ')
 
