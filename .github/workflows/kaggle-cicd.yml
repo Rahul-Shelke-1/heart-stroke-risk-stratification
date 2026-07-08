@@ -69,7 +69,7 @@ jobs:
             "is_private": "true",
             "enable_gpu": "false",
             "enable_tpu": "false",
-            "enable_internet": "true",
+            "enable_internet": true,
             "dataset_sources": [],
             "kernel_sources": [],
             "competition_sources": []
