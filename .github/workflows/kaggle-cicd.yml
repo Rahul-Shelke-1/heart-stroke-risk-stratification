@@ -6,6 +6,7 @@ on:
       - feat/notebooks
     paths:
       - 'notebooks/*.ipynb' # Triggers only when a notebook file changes
+      - '.github/workflows/kaggle-cicd.yml'
 
 jobs:
   deploy-and-run:
@@ -21,11 +22,11 @@ jobs:
         uses: astral-sh/setup-uv@v5
         with:
           enable-cache: true
-          python-version: '3.12.12'
+          python-version: '3.11'
 
       # Step 2: Use uv to install Kaggle CLI instantly
       - name: Install Kaggle CLI
-        run: uv pip install --system kaggle
+        run: uv pip install kaggle
 
       - name: Configure Kaggle Authentication
         run: |
