@@ -73,6 +73,38 @@ jobs:
         run: |
           echo "Processing deployment configurations..."
 
+          # INJECT ENVIRONMENT VARIABLES DIRECTLY INTO THE NOTEBOOK FILE
+          python -c "
+          import json, os
+
+          notebook_path = '${{ env.CHANGED_FILE }}'
+          with open(notebook_path, 'r', encoding='utf-8') as f:
+              data = json.load(f)
+
+          # Construct the literal code string that sets your environment variables
+          injection_lines = (
+              'import os\n'
+              f'os.environ[\"DAGSHUB_USERNAME\"] = \"{os.environ[\"DAGSHUB_USERNAME\"]}\"\n'
+              f'os.environ[\"DAGSHUB_TOKEN\"] = \"{os.environ[\"DAGSHUB_TOKEN\"]}\"\n'
+              f'os.environ[\"KAGGLE_USER\"] = \"{os.environ[\"KAGGLE_USERNAME\"]}\"\n'
+              f'os.environ[\"KAGGLE_DATASET_NAME\"] = \"{os.environ[\"KAGGLE_DATASET_NAME\"]}\"\n'
+          )
+
+          # Insert this code block as the very first cell in your notebook
+          new_cell = {
+              'cell_type': 'code',
+              'execution_count': None,
+              'metadata': {},
+              'outputs': [],
+              'source': [injection_lines]
+          }
+          data['cells'].insert(0, new_cell)
+
+          with open(notebook_path, 'w', encoding='utf-8') as f:
+              json.dump(data, f, indent=1)
+          print('Successfully injected pipeline secrets directly into the temporary notebook file structure.')
+          "
+
           # 1. Strip the folder prefix path to get a clean file title name
           FILENAME=$(basename "${{ env.CHANGED_FILE }}" .ipynb)
           # Convert naming format into a valid lowercase URL slug asset identifier
