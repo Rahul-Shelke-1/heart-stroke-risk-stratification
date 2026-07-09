@@ -67,6 +67,7 @@ jobs:
         env:
           KAGGLE_USERNAME: ${{ secrets.KAGGLE_USERNAME }}
           KAGGLE_KEY: ${{ secrets.KAGGLE_KEY }}
+          KAGGLE_DATASET_NAME: ${{ secrets.KAGGLE_DATASET_NAME }}
         run: |
           echo "Processing deployment configurations..."
 
@@ -87,7 +88,9 @@ jobs:
             "enable_gpu": false,
             "enable_tpu": false,
             "enable_internet": true,
-            "dataset_sources": [],
+            "dataset_sources": [
+              "${{ secrets.KAGGLE_USERNAME }}/${{ secrets.KAGGLE_DATASET_NAME }}"
+            ],
             "kernel_sources": [],
             "competition_sources": []
           }
