@@ -88,6 +88,11 @@ jobs:
             "enable_gpu": false,
             "enable_tpu": false,
             "enable_internet": true,
+            "keywords": [
+              "healthcare",
+              "stroke-prediction",
+              "machine-learning"
+            ],
             "dataset_sources": [
               "${{ secrets.KAGGLE_USERNAME }}/${{ secrets.KAGGLE_DATASET_NAME }}"
             ],
