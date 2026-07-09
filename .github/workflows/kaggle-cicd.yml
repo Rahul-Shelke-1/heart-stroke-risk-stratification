@@ -124,8 +124,8 @@ jobs:
             "enable_internet": true,
             "keywords": [
               "healthcare",
-              "stroke-prediction",
-              "machine-learning"
+              "classification",
+              "data cleaning"
             ],
             "dataset_sources": [
               "${{ secrets.KAGGLE_USERNAME }}/${{ secrets.KAGGLE_DATASET_NAME }}"
