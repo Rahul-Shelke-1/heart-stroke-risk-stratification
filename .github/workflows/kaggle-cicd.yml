@@ -131,7 +131,7 @@ jobs:
           dataset_sources = find_config('dataset_sources', default_datasets, is_json=True)
           kernel_sources = find_config('kernel_sources', [], is_json=True)
 
-          print(f"dataset_sources: {dataset_sources}")
+          print(f'dataset_sources: {dataset_sources}')
 
           # --- SECTION 3: METADATA COMPILED PAYLOAD ---
           filename = os.path.basename(notebook_path).rsplit('.', 1)[0]
