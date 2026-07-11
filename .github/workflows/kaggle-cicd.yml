@@ -74,15 +74,15 @@ jobs:
         run: |
           echo "Processing deployment configurations..."
 
-          # INJECT ENVIRONMENT VARIABLES DIRECTLY INTO THE NOTEBOOK FILE
+          # INJECT ENV VARS & EXTRACT KAGGLE_CONFIG HEADERS FROM NOTEBOOK
           python -c "
-          import json, os
+          import json, os, re
 
           notebook_path = '${{ env.CHANGED_FILE }}'
           with open(notebook_path, 'r', encoding='utf-8') as f:
               data = json.load(f)
 
-          # Construct the literal code string that sets your environment variables
+          # --- SECTION 1: SECRETS INJECTION ---
           injection_lines = (
               'import os\n'
               f'os.environ[\"DAGSHUB_USERNAME\"] = \"{os.environ[\"DAGSHUB_USERNAME\"]}\"\n'
@@ -90,8 +90,6 @@ jobs:
               f'os.environ[\"KAGGLE_USER\"] = \"{os.environ[\"KAGGLE_USERNAME\"]}\"\n'
               f'os.environ[\"KAGGLE_DATASET_NAME\"] = \"{os.environ[\"KAGGLE_DATASET_NAME\"]}\"\n'
           )
-
-          # Insert this code block as the very first cell in your notebook
           new_cell = {
               'cell_type': 'code',
               'execution_count': None,
@@ -101,40 +99,68 @@ jobs:
           }
           data['cells'].insert(0, new_cell)
 
+          # --- SECTION 2: CONFIG PARSING ---
+          # Combine text content from the first few cells to locate config lines
+          raw_text = ''
+          for cell in data['cells'][:6]: # Scrapes top cells (including newly added one)
+              if cell.get('cell_type') in ['code', 'markdown']:
+                  raw_text += '\n' + ''.join(cell.get('source', []))
+
+          def find_config(key, default, is_json=False):
+              match = re.search(r'#\s*KAGGLE_CONFIG:\s*' + re.escape(key) + r'\s*=\s*(.*)', raw_text)
+              if match:
+                  value_str = match.group(1).strip()
+                  if is_json:
+                      try:
+                          # Safely adjust single quotes to double quotes for standard json load
+                          return json.loads(value_str.replace(\"'\", '\"'))
+                      except Exception as e:
+                          print(f'Parsing error for {key}: {e}')
+                          return default
+                  elif value_str.lower() in ['true', 'false']:
+                      return value_str.lower() == 'true'
+                  return value_str
+              return default
+
+          # Parse configurations or fallback to defaults
+          enable_gpu = find_config('enable_gpu', False)
+          enable_tpu = find_config('enable_tpu', False)
+          keywords = find_config('keywords', ['healthcare', 'classification', 'data cleaning'], is_json=True)
+
+          default_datasets = [f'{os.environ[\"KAGGLE_USERNAME\"]}/{os.environ[\"KAGGLE_DATASET_NAME\"]}\']
+          dataset_sources = find_config('dataset_sources', default_datasets, is_json=True)
+          kernel_sources = find_config('kernel_sources', [], is_json=True)
+
+          # --- SECTION 3: METADATA COMPILED PAYLOAD ---
+          filename = os.path.basename(notebook_path).rsplit('.', 1)[0]
+          slug = filename.lower().replace(' ', '-').replace('_', '-')
+
+          metadata = {
+              'id': f'{os.environ[\"KAGGLE_USERNAME\"]}/{slug}',
+              'title': filename,
+              'code_file': notebook_path,
+              'language': 'python',
+              'kernel_type': 'notebook',
+              'is_private': True,
+              'enable_gpu': enable_gpu,
+              'enable_tpu': enable_tpu,
+              'enable_internet': True,
+              'keywords': keywords,
+              'dataset_sources': dataset_sources,
+              'kernel_sources': kernel_sources,
+              'competition_sources': []
+          }
+
+          # Write temporary notebook containing variables
           with open(notebook_path, 'w', encoding='utf-8') as f:
               json.dump(data, f, indent=1)
-          print('Successfully injected pipeline secrets directly into the temporary notebook file structure.')
+
+          # Write dynamically extracted metadata configuration
+          with open('kernel-metadata.json', 'w', encoding='utf-8') as f:
+              json.dump(metadata, f, indent=2)
+
+          print('Successfully processed secrets, parsed inline notebook configurations, and wrote kernel-metadata.json!')
           "
-
-          # 1. Strip the folder prefix path to get a clean file title name
-          FILENAME=$(basename "${{ env.CHANGED_FILE }}" .ipynb)
-          # Convert naming format into a valid lowercase URL slug asset identifier
-          SLUG=$(echo "$FILENAME" | tr '[:upper:]' '[:lower:]' | tr ' _' '-')
-
-          # 2. Programmatically generate the required kernel-metadata.json file
-          cat <<EOF > kernel-metadata.json
-          {
-            "id": "${{ secrets.KAGGLE_USERNAME }}/$SLUG",
-            "title": "$FILENAME",
-            "code_file": "${{ env.CHANGED_FILE }}",
-            "language": "python",
-            "kernel_type": "notebook",
-            "is_private": true,
-            "enable_gpu": false,
-            "enable_tpu": false,
-            "enable_internet": true,
-            "keywords": [
-              "healthcare",
-              "classification",
-              "data cleaning"
-            ],
-            "dataset_sources": [
-              "${{ secrets.KAGGLE_USERNAME }}/${{ secrets.KAGGLE_DATASET_NAME }}"
-            ],
-            "kernel_sources": [],
-            "competition_sources": []
-          }
-          EOF
 
           echo "Metadata compiled successfully. Initiating cloud sync..."
 
