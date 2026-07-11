@@ -136,7 +136,7 @@ jobs:
           slug = filename.lower().replace(' ', '-').replace('_', '-')
 
           metadata = {
-              'id': f'{os.environ["KAGGLE_USERNAME"]}/{slug}',
+              'id': f'{os.environ[\"KAGGLE_USERNAME\"]}/{slug}',
               'title': filename,
               'code_file': notebook_path,
               'language': 'python',
