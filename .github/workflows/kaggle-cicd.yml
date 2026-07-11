@@ -7,6 +7,7 @@ on:
     paths:
       - 'notebooks/*.ipynb' # Triggers only when a notebook file changes
       - '.github/workflows/kaggle-cicd.yml'
+      - 'pyproject.toml'
 
 jobs:
   deploy-and-run:
