@@ -113,7 +113,7 @@ jobs:
                   if is_json:
                       try:
                           # Safely adjust single quotes to double quotes for standard json load
-                          return json.loads(value_str.replace(\"'\", '\"'))
+                          return json.loads(value_str.replace("'", '"'))
                       except Exception as e:
                           print(f'Parsing error for {key}: {e}')
                           return default
@@ -136,7 +136,7 @@ jobs:
           slug = filename.lower().replace(' ', '-').replace('_', '-')
 
           metadata = {
-              'id': f'{os.environ[\"KAGGLE_USERNAME\"]}/{slug}',
+              'id': f'{os.environ["KAGGLE_USERNAME"]}/{slug}',
               'title': filename,
               'code_file': notebook_path,
               'language': 'python',
