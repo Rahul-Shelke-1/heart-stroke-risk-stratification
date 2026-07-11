@@ -167,5 +167,9 @@ jobs:
 
           echo "Metadata compiled successfully. Initiating cloud sync..."
 
+          echo "---- RAW METADATA GENERATED FOR KAGGLE ----"
+          cat kernel-metadata.json
+          echo "-------------------------------------------"
+
           # 3. THE KAGGLE PUSH COMMAND (Triggers remote isolated build)
           kaggle kernels push -p .
