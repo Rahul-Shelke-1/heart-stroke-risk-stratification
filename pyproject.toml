@@ -4,7 +4,11 @@ version = "0.1.0"
 description = "The goal of this project is to provide a data-driven approach for early detection of stroke risks, which can potentially assist healthcare professionals in prioritizing patient care and preventive measures."
 readme = "README.md"
 requires-python = ">=3.11"
-dependencies = []
+dependencies = [
+    "missingno>=0.5.2",
+    "pyampute>=0.0.3",
+    "seaborn>=0.13.2",
+]
 
 [dependency-groups]
 dev = [
