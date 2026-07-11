@@ -127,7 +127,7 @@ jobs:
           enable_tpu = find_config('enable_tpu', False)
           keywords = find_config('keywords', ['healthcare', 'classification', 'data cleaning'], is_json=True)
 
-          default_datasets = [os.environ['KAGGLE_USERNAME']} + '/' + {os.environ['KAGGLE_DATASET_NAME']}]
+          default_datasets = [os.environ['KAGGLE_USERNAME'] + '/' + os.environ['KAGGLE_DATASET_NAME']]
           dataset_sources = find_config('dataset_sources', default_datasets, is_json=True)
           kernel_sources = find_config('kernel_sources', [], is_json=True)
 
