@@ -93,7 +93,7 @@ jobs:
           new_cell = {
               'cell_type': 'code',
               'execution_count': None,
-              'metadata': {},
+              'metadata': {'jupyter': {'source_hidden': True}}, # Hides the cell from view in public notebooks!
               'outputs': [],
               'source': [injection_lines]
           }
