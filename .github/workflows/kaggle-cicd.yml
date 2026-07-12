@@ -125,12 +125,8 @@ jobs:
           # Parse configurations or fallback to defaults
           enable_gpu = find_config('enable_gpu', False)
           enable_tpu = find_config('enable_tpu', False)
-          keywords = find_config('keywords', ['healthcare', 'classification', 'data cleaning'], is_json=True)
+          keywords = find_config('keywords', [], is_json=True)
 
-          # Enforce strict lowercase handling for fallback values
-          # user_slug = os.environ['KAGGLE_USERNAME'].lower()
-          # dataset_slug = os.environ['KAGGLE_DATASET_NAME'].lower()
-          # default_datasets = [user_slug + '/' + dataset_slug]
           dataset_sources = find_config('dataset_sources', [], is_json=True)
           kernel_sources = find_config('kernel_sources', [], is_json=True)
 
