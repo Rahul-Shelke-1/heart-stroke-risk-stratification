@@ -113,7 +113,7 @@ jobs:
                   if is_json:
                       try:
                           # Safely adjust single quotes to double quotes for standard json load
-                          return json.loads(value_str.replace(\"'\", '\"'))
+                          return json.loads(ast.literal_eval(value_str).replace(\"'\", '\"'))
                       except Exception as e:
                           print(f'Parsing error for {key}: {e}')
                           return default
