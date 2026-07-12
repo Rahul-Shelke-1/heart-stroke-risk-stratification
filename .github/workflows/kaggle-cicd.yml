@@ -128,10 +128,10 @@ jobs:
           keywords = find_config('keywords', ['healthcare', 'classification', 'data cleaning'], is_json=True)
 
           # Enforce strict lowercase handling for fallback values
-          user_slug = os.environ['KAGGLE_USERNAME'].lower()
-          dataset_slug = os.environ['KAGGLE_DATASET_NAME'].lower()
-          default_datasets = [user_slug + '/' + dataset_slug]
-          dataset_sources = find_config('dataset_sources', default_datasets, is_json=True)
+          # user_slug = os.environ['KAGGLE_USERNAME'].lower()
+          # dataset_slug = os.environ['KAGGLE_DATASET_NAME'].lower()
+          # default_datasets = [user_slug + '/' + dataset_slug]
+          dataset_sources = find_config('dataset_sources', [], is_json=True)
           kernel_sources = find_config('kernel_sources', [], is_json=True)
 
           # --- SECTION 3: METADATA COMPILED PAYLOAD ---
