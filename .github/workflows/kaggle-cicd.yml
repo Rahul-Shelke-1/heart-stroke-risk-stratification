@@ -125,7 +125,7 @@ jobs:
           # Parse configurations or fallback to defaults
           enable_gpu = find_config('enable_gpu', False)
           enable_tpu = find_config('enable_tpu', False)
-          keywords = find_config('keywords', [], is_json=False)
+          keywords = find_config('keywords', [], is_json=True)
 
           dataset_sources = find_config('dataset_sources', [], is_json=False)
           kernel_sources = find_config('kernel_sources', [], is_json=False)
