@@ -127,7 +127,7 @@ jobs:
           enable_tpu = find_config('enable_tpu', False)
           keywords = find_config('keywords', [], is_json=True)
 
-          dataset_sources = find_config('dataset_sources', [], is_json=False)
+          dataset_sources = find_config('dataset_sources', [], is_json=True)
           kernel_sources = find_config('kernel_sources', [], is_json=False)
 
           # --- SECTION 3: METADATA COMPILED PAYLOAD ---
