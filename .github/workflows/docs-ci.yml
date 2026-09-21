@@ -1,0 +1,43 @@
+name: Docs CI
+
+on:
+  push:
+    branches:
+      - feat/docs
+    paths:
+      - 'docs/**'
+      - 'mkdocs.yml'
+      - '.github/workflows/docs-ci.yml'
+
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'docs/**'
+      - 'mkdocs.yml'
+      - '.github/workflows/docs-ci.yml'
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: 3.11
+
+      - name: Cache dependencies
+        uses: actions/cache@v4
+        with:
+          key: mkdocs-${{ runner.os }}-${{ hashFiles('**/requirements.txt') }}
+          path: ~/.cache/pip
+
+      - name: Install dependencies
+        run: |
+          pip install --upgrade pip
+          pip install mkdocs-material[imaging] mkdocstrings[python] pymdown-extensions
+
+      - name: Build Docs (Strict Mode)
+        run: mkdocs build --strict
