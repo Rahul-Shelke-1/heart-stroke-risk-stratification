@@ -174,9 +174,9 @@ cython_debug/
 .abstra/
 
 # Visual Studio Code
-#  Visual Studio Code specific template is maintained in a separate VisualStudioCode.gitignore 
+#  Visual Studio Code specific template is maintained in a separate VisualStudioCode.gitignore
 #  that can be found at https://github.com/github/gitignore/blob/main/Global/VisualStudioCode.gitignore
-#  and can be added to the global gitignore or merged into this file. However, if you prefer, 
+#  and can be added to the global gitignore or merged into this file. However, if you prefer,
 #  you could uncomment the following to ignore the enitre vscode folder
 # .vscode/
 
@@ -196,11 +196,14 @@ cython_debug/
 notebooks/catboost_info
 logs
 artifact
-#notebooks/01_Basic_Cleaning.ipynb 
-#notebooks/02_Exploratory_Data_Analysis.ipynb 
-#notebooks/03_Data_Cleaning.ipynb 
+#notebooks/01_Basic_Cleaning.ipynb
+#notebooks/02_Exploratory_Data_Analysis.ipynb
+#notebooks/03_Data_Cleaning.ipynb
 #notebooks/04_Feature_Engineering.ipynb
-#notebooks/05_Feature_Selection.ipynb 
+#notebooks/05_Feature_Selection.ipynb
 # notebooks/06_Model_Selection.ipynb
 notebooks/07_Hyperparameter_Tunning.ipynb
 notebooks/08_Model_Interpretation.ipynb
+.kaggle
+.vscode
+.secrets
