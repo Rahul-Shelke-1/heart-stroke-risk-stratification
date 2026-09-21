@@ -5,6 +5,7 @@ description = "The goal of this project is to provide a data-driven approach for
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
+    "cudf",
     "missingno>=0.5.2",
     "pyampute>=0.0.3",
     "seaborn>=0.13.2",

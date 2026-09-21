@@ -5,8 +5,8 @@ import cloudpickle
 import numpy as np
 import yaml
 
-from src.exception.base import HeartStrokeException
-from src.logger import logging
+from src.heart_stroke_prediction.exception.base import HeartStrokeException
+from src.heart_stroke_prediction.logger import logging
 
 
 def read_yaml_file(file_path: str) -> dict:

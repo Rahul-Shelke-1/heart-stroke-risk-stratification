@@ -1,0 +1,44 @@
+stages:
+  ingestion:
+    cmd: python src/components/data_ingestion.py
+    deps:
+    - src/components/data_ingestion.py
+    outs:
+    # Labeled as data output
+    - artifact/latest/data_ingestion/
+
+  validation:
+    cmd: python src/data_validation.py
+    deps:
+    - src/data_validation.py
+    - artifact/latest/data_ingestion/
+    plots:
+    # Labeled as a data profile/quality report file
+    - artifact/latest/data_validation/report.html:
+        cache: false
+
+  transformation:
+    cmd: python src/data_transformation.py
+    deps:
+    - src/data_transformation.py
+    - artifact/latest/data_validation/
+    outs:
+    # Labeled as processed data output
+    - artifact/latest/data_transformation/
+
+  training:
+    cmd: python src/model_trainer.py
+    deps:
+    - src/model_trainer.py
+    - artifact/latest/data_transformation/
+    outs:
+    # Labeled as a model file
+    - artifact/latest/model_trainer/model.pkl
+    metrics:
+    # Labeled as numerical performance metrics
+    - artifact/latest/model_trainer/metrics.json:
+        cache: false
+    plots:
+    # Labeled as performance charts (e.g., Confusion Matrix, ROC Curve)
+    - artifact/latest/model_trainer/confusion_matrix.png:
+        cache: false
