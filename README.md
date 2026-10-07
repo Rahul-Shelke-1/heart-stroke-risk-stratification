@@ -17,3 +17,22 @@ A machine learning project for exploring and developing a heart stroke risk stra
 ```
 
 The repository is currently in the **project foundation phase**. Domain-specific implementation will be added in later milestones.
+
+## Development
+
+### Prerequisites
+
+- Python 3.11–3.13
+- uv
+
+### Setup
+
+```bash
+uv sync
+```
+
+### Run tests
+
+```bash
+uv run pytest
+```
