@@ -1,239 +1,118 @@
-# Domain & Workflow Research — Search Strategy
+# 1.1.1 — Define domain research questions and search strategy
 
-## 1. Purpose
+## 1. Define the research questions
 
-Establish an evidence-based understanding of stroke, current risk-assessment practices, existing prediction approaches, and potential gaps in clinical workflows.
+We'll use the following questions to guide the research. They are intentionally focused on understanding the problem space, not deciding which model to train.
 
-The purpose of this research is to identify and evaluate candidate problems for a Heart Stroke Risk Stratification system. It is not to establish clinical recommendations, select a final ML model, or claim clinical validation.
+ID | Research question | Why it matters
+--|--|--
+RQ1 | What is stroke, and what major types and clinical distinctions matter for risk assessment? | Establishes the clinical context.
+RQ2 | What established factors are associated with stroke risk, and how are they assessed? | Helps understand relevant patient characteristics and risk factors.
+RQ3 | How is stroke risk currently assessed, and what decisions can that assessment inform? | Establishes current practice and decision context.
+RQ4 | Who participates in risk assessment, prevention, and related care decisions? | Identifies potential users and stakeholders.
+RQ5 | What information is collected, interpreted, communicated, and acted upon during the workflow? | Supports workflow mapping and identification of information gaps.
+RQ6 | What established clinical scores and data-driven prediction approaches already exist? | Prevents reinventing existing approaches and helps reveal limitations.
+RQ7 | What limitations or unmet needs have been documented in existing assessment practices and prediction tools? | Generates evidence-backed candidate problems.
+RQ8 | What evidence supports these findings, and what remains uncertain or unvalidated? | Keeps discovery rigorous and transparent.
 
 ## 2. Research Boundaries and Time Budget
 
+* **Research boundary:** We are investigating stroke-risk assessment and prevention, not acute stroke diagnosis or emergency detection. Those are different problem contexts and should not be mixed without a clear reason.
+
+Also, the current project idea—using risk stratification to help prioritize further assessment—is a working hypothesis, not a validated user need. We should investigate whether the evidence supports it before committing to that problem.
+
 * **Initial planning issue:** 1–2 hours.
 * **Overall discovery research:** Initially time-boxed to 3–5 working days, then reassessed based on evidence gaps.
-* **Research approach:** Targeted searches, structured source screening, evidence extraction, and iterative synthesis.
-* **Geographic focus:** Global evidence for clinical and methodological context, supplemented by Indian evidence where relevant.
-* **Intended output:** A traceable evidence base that supports problem discovery, stakeholder hypotheses, and subsequent feasibility decisions.
 
 The time budget is a constraint against unfocused research, not a reason to stop when important questions remain unanswered.
 
-## 3. Core Research Pillars
+## 3. Establish the search strategy
 
-### Pillar A — Clinical Standards and Stroke Prevention
+Start with authoritative clinical guidelines and public health sources, then use peer-reviewed studies to investigate specific practices, workflows, prediction approaches, and reported limitations.
 
-**Objective:** Understand stroke, its risk factors, prevention practices, and established clinical guidance.
+### Source hierarchy
 
-Research questions:
+> **Tier 1 - Clienical guidelines and public health authorities**
+> - Use for established clinical context, prevention recommendations, and current practices.
+> - [WHO - Cardiovascular diseases](https://www.who.int/news-room/fact-sheets/detail/cardiovascular-diseases-%28CVDs%29)
+> - [American Heart Association - 2024 primary prevention of stroke guideline](https://professional.heart.org/en/science-news/2024-guideline-for-the-primary-prevention-of-stroke/top-things-to-know)
 
-* What are the main types of stroke, and what distinguishes primary prevention from secondary prevention and acute stroke detection?
-* Which modifiable and non-modifiable factors are associated with stroke?
-* How are stroke risk factors assessed and managed in clinical practice?
-* What established guidelines and risk-assessment approaches are relevant?
-* What populations and clinical contexts do these guidelines and approaches address?
+> **Tier 2 - Peer-reviewed clinical research**
+> - Use for specific evidence, assessment practices, study populations, and reported limitations.
+> - [PubMed](https://pubmed.ncbi.nlm.nih.gov/)
+> - [Google Scholar](https://scholar.google.com/)
 
-Preferred sources:
+> **Tier 3 - Prediction-model methodology**
+> - Use to understand what makes clinical prediction research transparent and how to assess its limitations.
+> - [TRIPOD+AI (2024) - Reporting prediction model studies](https://www.bmj.com/content/385/bmj-2023-078378)
+> - [PROBAST+AI (2025) - Prediction-model quality and risk of bias](https://www.bmj.com/content/388/bmj-2024-082505)
 
-* WHO and other authoritative public-health organizations.
-* American Heart Association/American Stroke Association (AHA/ASA) guidelines.
-* Peer-reviewed systematic reviews and relevant original studies.
+The WHO provides foundational information about cardiovascular risk factors, while the AHA guideline gives a more specific primary-prevention perspective. TRIPOD+AI and PROBAST+AI are useful methodological references for later work; they are not clinical guidelines or proof that a particular prediction model is appropriate.
 
-### Pillar B — Indian Epidemiology and Healthcare Context
+### Search queries to use
 
-**Objective:** Understand the relevance of global findings to Indian populations and healthcare settings.
+Copy these into PubMed or Google Scholar as you work through the subsequent issues.
 
-Research questions:
+Topic | Suggested search query
+--|--
+Stroke background | `stroke types risk factors prevention clinical review`
+Risk factors | `stroke risk factors primary prevention guideline`
+Current assessment | `stroke risk assessment clinical practice primary prevention`
+Workflow | `primary care cardiovascular risk assessment workflow stroke prevention`
+Clinical scores | `stroke risk prediction score inteded population validation`
+ML approaches. | `machine learning models stroke risk prediction external validation calibration`
+Model limitaions | `stroke prediction model limitaions bias generalizability clinical utility`
+Decision support | `clinical decision support risk stratfication stroke prevention workflow`
 
-* What is known about stroke burden and its variation across India?
-* Which risk factors and population characteristics are relevant in Indian studies?
-* What evidence exists about access to preventive care, risk-factor assessment, and follow-up?
-* What data sources and clinical measurements are available in the intended setting?
-* Where does evidence from other populations have limited applicability?
+Use specific terms such as `primary prevention`, `prognostic model`, `external validation`, and `calibration` to narrow results when searches are too broad.
 
-Preferred sources:
+## 4. Define source-selection rules
 
-* Indian Council of Medical Research (ICMR).
-* Indian public-health authorities and relevant professional organizations.
-* Peer-reviewed Indian cohort studies, systematic reviews, and epidemiological research.
-* World Stroke Organization (WSO) reports where relevant.
+Use these rules consistently so the research stays focused and defensible.
 
-Do not assume that findings from one Indian region, hospital, or cohort represent the entire country.
+- **Prefer:** Current clinical guidelines, government and public health sources, systematic reviews, and relevant peer-reviewed studies.
 
-### Pillar C — Prediction Models and Evaluation Methodology
+- **Use older sources when justified:** Foundational studies or established assessment tools may require older publications. Record publication dates and check whether newer guidance supersedes them.
 
-**Objective:** Understand established stroke-risk prediction approaches and how their quality and applicability are evaluated.
+- **Check applicability:** Record the population, country or healthcare setting, prediction target, and time horizon when the source reports them.
 
-Research questions:
+- **Avoid relying on:** Unreferenced blogs, commercial claims, copied articles, and model-performance claims that cannot be traced to an original study.
 
-* Which established clinical scores and statistical or ML prediction models address stroke risk?
-* What outcome, prediction horizon, population, and intended use does each model target?
-* What predictors, data sources, and assumptions does each approach require?
-* How are discrimination, calibration, clinical usefulness, and generalizability evaluated?
-* What limitations, validation gaps, and reporting weaknesses are documented?
-* What evidence would be required before considering a model suitable for a new population?
+- **Do not overgeneralize:** Evidence from one population or hospital does not automatically apply to another.
 
-Preferred sources:
+- **Separate facts from hypotheses:** A published association between a risk factor and stroke does not, by itself, prove that a particular workflow is failing or that an ML system would improve outcomes.
 
-* Peer-reviewed clinical prediction-model studies.
-* Systematic reviews of stroke-risk prediction.
-* TRIPOD+AI reporting guidance.
-* Relevant methodological guidance on prediction-model bias, validation, calibration, and clinical utility.
+For each source, capture its title, authors or organization, publication year, URL or DOI, source type, key findings, limitations, and relevance to the research question.
 
-### Pillar D — Clinical Workflow and Stakeholder Needs
+## 5. Establish the research documentation structure
 
-**Objective:** Understand how risk assessment relates to real decisions and identify possible workflow problems.
+For this issue, keep the documentation lightweight. You don't need a separate document for every question.
 
-Research questions:
+Recommended repository layout:
 
-* Who may assess stroke risk, and in what settings?
-* What information is collected, reviewed, and acted upon?
-* Which decisions follow an assessment?
-* What documented workflow limitations, information gaps, or access constraints exist?
-* Which users might benefit from better risk stratification, and how would it support their decisions?
-* What assumptions require direct confirmation from clinicians or other stakeholders?
+```
+research/
+└── domain-and-workflow/
+    ├── research-strategy.md
+    └── source-log.csv
+```
 
-Preferred sources:
+- `research-strategy.md` — research questions, search strategy, source-selection rules, and research boundaries.
+- `source-log.csv` — one row per source, with its metadata, findings, limitations, and associated research question IDs.
 
-* Clinical guidelines and care pathways.
-* Published workflow studies and implementation research.
-* Relevant healthcare-system reports.
-* Direct stakeholder interviews, if access becomes available.
+## 6. Use this source-log template
 
-Desk-research findings must not be represented as interview-validated user needs.
+Field | What to record
+--|--
+source_id |	Unique identifier, e.g. SRC-001
+research_question |	RQ1, RQ2, etc.
+title |	Publication or guideline title
+organization_or_authors	| Publisher, organization, or authors
+year |	Publication year
+source_type |	Guideline, review, observational study, prediction study, etc.
+url_or_doi|	Traceable source location
+key_findings|	Relevant findings in your own words
+limitations|	Applicability, study limitations, or evidence gaps
+relevance|	Why the source matters to the project
+evidence_status|	Established finding, indirect evidence, or hypothesis
 
-## 4. Search and Source-Selection Strategy
-
-### 4.1 Discovery sources
-
-Use:
-
-* PubMed for biomedical literature.
-* Google Scholar for broader academic discovery and citation tracking.
-* Official WHO, ICMR, AHA/ASA, and WSO resources for relevant guidance and reports.
-* Reference lists of high-quality reviews and influential prediction-model studies.
-
-### 4.2 Search-query construction
-
-Combine four elements where applicable:
-
-1. Condition or population: stroke, Indian adults, primary prevention.
-2. Research topic: risk factors, assessment, workflow, prediction.
-3. Method or context: clinical prediction model, cohort, calibration, healthcare access.
-4. Evidence type or geography: guideline, systematic review, India.
-
-Example searches:
-
-* `stroke primary prevention guideline risk assessment`
-* `stroke risk prediction model systematic review calibration`
-* `stroke epidemiology India risk factors cohort`
-* `stroke prevention primary care India workflow`
-* `stroke clinical prediction model external validation`
-* `TRIPOD+AI clinical prediction model reporting`
-
-Record the query, search platform, date, and relevant selection decisions so the search can be repeated.
-
-### 4.3 Screening funnel
-
-**Stage 1 — Initial triage**
-
-Review the title, abstract, publication date, population, and conclusion. Inspect tables and figures when they are relevant.
-
-Retain a source if it contributes meaningful evidence to one or more research questions.
-
-**Stage 2 — Focused review**
-
-For important sources, inspect the methods, study population, outcome definition, prediction horizon, results, limitations, and funding or conflicts of interest where relevant.
-
-Do not use an abstract or conclusion alone to establish a model's validity or clinical applicability.
-
-**Stage 3 — Evidence extraction**
-
-Record the key findings, source limitations, applicability to the project, and remaining questions in the research log.
-
-**Stage 4 — Synthesis**
-
-Compare findings across sources, identify agreement and disagreement, record evidence gaps, and distinguish supported findings from hypotheses.
-
-### 4.4 Source-quality principles
-
-Prioritize:
-
-* Authoritative clinical guidelines for clinical recommendations.
-* Systematic reviews for a broad overview of available evidence.
-* Original studies for population-specific findings and detailed methods.
-* Methodological guidance for evaluating prediction models.
-* Transparent reporting of study limitations, uncertainty, and applicability.
-
-Prefer current guidance where available, but retain older landmark studies when they remain relevant. Record publication dates and avoid assuming that newer automatically means better.
-
-## 5. Evidence-Extraction Template
-
-Use this template for important papers, guidelines, and reports.
-
-### [Author/Organization, Year] — [Short Title]
-
-* **Source and link:**
-* **Source type:**
-* **Research question addressed:**
-* **Objective:**
-* **Population and setting:**
-* **Methods or guideline scope:**
-* **Key findings:**
-* **Limitations and uncertainty:**
-* **Relevance to the project:**
-* **Implications for problem discovery:**
-* **Evidence classification:** Established evidence / desk-research inference / unvalidated hypothesis.
-* **Follow-up questions:**
-
-For prediction-model studies, also record the target outcome, prediction horizon, predictors, sample size, outcome frequency, validation design, discrimination, calibration, and clinical utility where reported.
-
-Do not compare reported model metrics without considering differences in populations, outcomes, prediction horizons, and validation methods.
-
-## 6. Practical Constraints to Investigate
-
-Research the following as questions, not predetermined requirements:
-
-* **Clinical:** How risk factors are measured and interpreted; which prevention guidelines apply; and which decisions belong to qualified healthcare professionals.
-* **Data:** Availability, missingness, measurement quality, representativeness, outcome definitions, and the timing of predictor measurements.
-* **Technical:** Baselines, data leakage, validation strategy, class imbalance, calibration, generalization, and interpretability.
-* **Workflow:** How users might interpret and act on risk estimates, and what information they would need.
-* **Ethical and regulatory:** Privacy, consent, fairness, explainability, intended-use boundaries, and applicable regulatory requirements.
-
-Do not establish treatment thresholds, diagnostic claims, or clinical deployment requirements from literature review alone.
-
-## 7. Research Log and Traceability
-
-Maintain a separate `research-log.md` with the following fields:
-
-| Field                   | Description                                    |
-| ----------------------- | ---------------------------------------------- |
-| Source ID               | Stable identifier for referencing the source   |
-| Bibliographic details   | Title, author, year, DOI or URL                |
-| Search details          | Search platform, query, and date found         |
-| Research pillar         | A, B, C, or D                                  |
-| Evidence summary        | Findings in your own words                     |
-| Limitations             | Applicability and uncertainty                  |
-| Evidence classification | Established evidence, inference, or hypothesis |
-| Project implication     | Relevance to the candidate problem             |
-| Follow-up               | Unanswered questions                           |
-
-Keep the full source details and evidence trail in the research artifacts so that later decisions can be traced back to the evidence.
-
-## 8. Stopping and Completion Criteria
-
-The research phase is ready for synthesis when:
-
-* All four research pillars have been addressed at an initial level.
-* Key clinical and methodological sources have been reviewed beyond abstracts.
-* Relevant Indian evidence has been considered, or the lack of suitable evidence is documented.
-* Major uncertainties and contradictory findings are recorded.
-* Candidate workflow and stakeholder questions are documented.
-* Additional research questions are prioritized by their likely impact on project decisions.
-* Findings can be traced to sources and separated from assumptions.
-
-At the end of the initial time budget, review progress and remaining evidence gaps. Extend the investigation only when the unanswered questions could materially affect problem selection, safety, or feasibility.
-
-## 9. Expected Deliverables
-
-* `research/domain-workflow/search-strategy.md`
-* `research/domain-workflow/research-log.md`
-
-Subsequent issues will produce focused research artifacts for stroke risk factors, existing assessment practices, care workflows, prediction approaches, and the final synthesis.
