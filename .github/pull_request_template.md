@@ -5,8 +5,8 @@
 Closes #
 
 ## Changes
-- 
-- 
+-
+-
 
 ## Verification
 - [ ] Tests pass
@@ -20,4 +20,4 @@ Closes #
 - [ ] No secrets, credentials, or sensitive data are committed
 
 ## Notes
-<!-- Risks, trade-offs, screenshots, or follow-up work, if applicable --> 
+<!-- Risks, trade-offs, screenshots, or follow-up work, if applicable -->

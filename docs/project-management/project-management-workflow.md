@@ -20,7 +20,7 @@ Idea
 → Validation
 → Done
 
-Epics and milestone provide planning and delivery context around issues; 
+Epics and milestone provide planning and delivery context around issues;
 they are not execution stage;
 
 ### Change Workflow
@@ -37,9 +37,9 @@ they are not execution stage;
 | Validation | Vefrify the merged change behaves as expected. |
 | Done | close the issue and record the outcome and actual effort. |
 
-## 3. Lean Interation Loop
+## 3. Lean Iteration Loop
 
-Each issue is executed through a lightweight iteartion loop:
+Each issue is executed through a lightweight iteration loop:
 
 Understand
 → Plan
@@ -67,7 +67,7 @@ An issue is considered Ready when:
 An issue is considered Done when:
 
 - [ ] Agreed scope has been implemented.
-- [ ] Acceptabce criteria have been satisifed.
+- [ ] Acceptabce criteria have been satisfied.
 - [ ] Relevant tests/checks pass.
 - [ ] The imeplementation has been self-reviewed.
 - [ ] Required documentation has been updated.
@@ -92,7 +92,7 @@ An issue is considered Done when:
 
 ## 7. Follow-up Work and Scope Changes
 
-Work discovered during implementation shoudl not sliently expand the scope of the current issue.
+Work discovered during implementation should not silently expand the scope of the current issue.
 
 ### Scope Changes
 
@@ -112,7 +112,7 @@ Follow-up work should:
 - Be assigned to the appropriate milestone or backlog.
 - Avoid blocking completion of the current issue useless it is required for the current acceptance criteria.
 
-The current issue should be completed against its agrred scope, while additional work is tracked separately.
+The current issue should be completed against its agreed scope, while additional work is tracked separately.
 
 ## 8. Milestone Completion
 

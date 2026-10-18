@@ -59,9 +59,9 @@ Stroke background | `stroke types risk factors prevention clinical review`
 Risk factors | `stroke risk factors primary prevention guideline`
 Current assessment | `stroke risk assessment clinical practice primary prevention`
 Workflow | `primary care cardiovascular risk assessment workflow stroke prevention`
-Clinical scores | `stroke risk prediction score inteded population validation`
+Clinical scores | `stroke risk prediction score intended population validation`
 ML approaches. | `machine learning models stroke risk prediction external validation calibration`
-Model limitaions | `stroke prediction model limitaions bias generalizability clinical utility`
+Model limitations | `stroke prediction model limitations bias generalizability clinical utility`
 Decision support | `clinical decision support risk stratfication stroke prevention workflow`
 
 Use specific terms such as `primary prevention`, `prognostic model`, `external validation`, and `calibration` to narrow results when searches are too broad.
@@ -115,4 +115,3 @@ key_findings|	Relevant findings in your own words
 limitations|	Applicability, study limitations, or evidence gaps
 relevance|	Why the source matters to the project
 evidence_status|	Established finding, indirect evidence, or hypothesis
-
