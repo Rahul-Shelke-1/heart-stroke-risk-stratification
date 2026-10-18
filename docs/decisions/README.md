@@ -99,7 +99,7 @@ Copy this structure when creating a new ADR:
 ```markdown
 # NNNN — Decision Title
 
-**Status:** Proposed | Accepted | Superseded | Rejected  
+**Status:** Proposed | Accepted | Superseded | Rejected
 **Date:** YYYY-MM-DD
 
 ## Context
